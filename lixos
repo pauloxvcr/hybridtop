@@ -1,0 +1,19 @@
+'''def NonLinearSolve(self,E):
+
+        def G(Ul): # F aqui faz referencia a função
+            self.U[self.FreeDofs] = Ul
+            self.update_k()
+
+            self.K = sparse.csr_matrix((self.k * E[self.e].flatten(), (self.i, self.j)),
+                                   shape=(max(self.i) + 1, max(self.j) + 1))
+            Kl = self.K[self.FreeDofs, :][:, self.FreeDofs]
+
+            return ((Kl @ Ul) - self.Fl)**2
+
+        #self.NonLinearFlutuantPoint(E)
+        Uil = self.U[self.FreeDofs]
+
+        #teste = (self.K[self.FreeDofs,:][:,self.FreeDofs] @ Uil) - self.Fl
+        sol = root(G,Uil,method='krylov',options = {'disp':True})
+        teste = (self.K[self.FreeDofs,:][:,self.FreeDofs] @ sol) - self.Fl
+        self.U[self.FreeDofs] = sol'''

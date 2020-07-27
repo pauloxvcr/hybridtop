@@ -1,0 +1,7 @@
+Mbb=0.5
+Hpier=0.3
+shear=0.5
+Lshape1=0.3
+Lshape2=0.3
+Lshape2=0.3
+Michell=0.3
