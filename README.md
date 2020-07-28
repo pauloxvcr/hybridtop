@@ -28,6 +28,6 @@ https://doi.org/10.1007/s00158-011-0696-x
 [4]1. Gaynor AT, Guest JK, Moen CD (2013) Reinforced Concrete Force Visualization and Design 
 Using Bilinear Truss-Continuum Topology Optimization.Journal of Structural Engineering 139:607–618.
 https://doi.org/10.1061/(ASCE)ST.1943-541X.0000692
-
+---------------------------------------------------------------------------------------------
 
 
