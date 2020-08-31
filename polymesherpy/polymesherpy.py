@@ -1,3 +1,14 @@
+'''
+This algorithm is a translation of a MatLab algorithm that can by found with the algorithm article on:
+https://paulino.ce.gatech.edu/software.html
+
+Reference of the algorithm article:
+Talischi C, Paulino GH, Pereira A, Menezes IFM (2012) PolyMesher: a general-purpose mesh generator for polygonal
+elements written in Matlab. Structural and Multidisciplinary Optimization 45:309–328.
+https://doi.org/10.1007/s00158-011-0706-z
+
+'''
+
 import numpy as np
 
 import matplotlib.pyplot as plt

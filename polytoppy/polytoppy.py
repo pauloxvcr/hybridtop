@@ -1,3 +1,12 @@
+'''
+This algorithm is a translation of a MatLab algorithm that can by found with the algorithm article on:
+https://paulino.ce.gatech.edu/software.html
+
+Reference of the algorithm article:
+Talischi C, Paulino GH, Pereira A, Menezes IFM (2012) PolyTop: a Matlab implementation of a general topology
+optimization framework using unstructured polygonal finite element meshes. Structural and Multidisciplinary Optimization
+ 45:329–357. https://doi.org/10.1007/s00158-011-0696-x
+'''
 import numpy as np
 from scipy import sparse
 from scipy.sparse.linalg import spsolve

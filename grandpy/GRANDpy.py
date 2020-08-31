@@ -1,3 +1,13 @@
+###
+'''
+This algorithm is a translation of a MatLab algorithm that can by found with the algorithm article on:
+https://paulino.ce.gatech.edu/software.html
+
+Reference of the algorithm article:
+Zegard T, Paulino GH (2014) GRAND — Ground structure based topology optimization for arbitrary 2D domains using
+MATLAB. Structural and Multidisciplinary Optimization 50:861–882. https://doi.org/10.1007/s00158-014-1085-z
+'''
+###
 import numpy as np
 from .generateGsC import generateGS
 from scipy.sparse import csr_matrix, hstack
