@@ -4,7 +4,7 @@ The collection is composed by 3 Algorithms that was translate from Matlab to pyt
 and a new algorithm that realize hybrid topology optimization based on the formulation of 
 Gaynor et al[4].
 ----
-The Matlab algorithms can be found in:
+The Matlab algorithms and the algorithms articles can be found in:
 https://paulino.ce.gatech.edu/software.html
 
 [1] Talischi C, Paulino GH, Pereira A, Menezes IFM (2012) PolyMesher: a general-purpose mesh 
