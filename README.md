@@ -1,7 +1,7 @@
 # Hybridtop
 
 This repository contain a collection of algorithms that is useful for topology optimization.
-The collection is composed by 3 Algorithms that was translate from Matlab to python [1][2][3] 
+The collection is composed by 3 Algorithms that was translate from Matlab to python [1-3] 
 and a new algorithm that accomplish hybrid topology optimization based on the formulation of 
 Gaynor et al[4].
 
