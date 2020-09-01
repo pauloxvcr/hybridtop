@@ -1,8 +1,10 @@
 # Hybridtop
+
 This repository contain a collection of algorithms that is useful for topology optimization.
 The collection is composed by 3 Algorithms that was translate from Matlab to python [1][2][3] 
 and a new algorithm that accomplish hybrid topology optimization based on the formulation of 
 Gaynor et al[4].
+
 ----
 The Matlab algorithms and the algorithms articles can be found in:
 https://paulino.ce.gatech.edu/software.html
@@ -31,9 +33,9 @@ MatLab Algorithms:
 
 Hybrid Formulation:
   
-  [4]Gaynor AT, Guest JK, Moen CD (2013) Reinforced Concrete Force Visualization and Design 
-  Using Bilinear Truss-Continuum Topology Optimization.Journal of Structural Engineering 139:607–618.
-  https://doi.org/10.1061/(ASCE)ST.1943-541X.0000692
+    [4]Gaynor AT, Guest JK, Moen CD (2013) Reinforced Concrete Force Visualization and Design 
+    Using Bilinear Truss-Continuum Topology Optimization.Journal of Structural Engineering 139:607–618.
+    https://doi.org/10.1061/(ASCE)ST.1943-541X.0000692
 
 
 
