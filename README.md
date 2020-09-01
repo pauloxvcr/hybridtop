@@ -10,7 +10,7 @@ The Matlab algorithms and the algorithms articles can be found in:
 https://paulino.ce.gatech.edu/software.html
 
 ## References:
-MatLab Algorithms:
+### MatLab Algorithms:
 
   PolyMesher
     
@@ -31,7 +31,7 @@ MatLab Algorithms:
     Structural and Multidisciplinary Optimization 45:329–357. 
     https://doi.org/10.1007/s00158-011-0696-x
 
-Hybrid Formulation:
+### Hybrid Formulation:
   
     [4]Gaynor AT, Guest JK, Moen CD (2013) Reinforced Concrete Force Visualization and Design 
     Using Bilinear Truss-Continuum Topology Optimization.Journal of Structural Engineering 139:607–618.
