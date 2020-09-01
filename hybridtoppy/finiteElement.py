@@ -140,7 +140,7 @@ class FiniteElementStructure:
             self.i1[index:index + NDof ** 2] = I.flatten(order = 'F')
             self.j1[index:index + NDof ** 2] = J.flatten(order = 'F')
             self.e1[index:index + NDof ** 2] = el
-            index = index + NDof ** 2  # Verificar questão do intervalo aberto
+            index = index + NDof ** 2  # python open interval
         #-------Bars-------------
         self.i2 = np.zeros(self.NBars * (4 ** 2), dtype=int)
         self.j2 = self.i2.copy()
@@ -161,7 +161,7 @@ class FiniteElementStructure:
         self.F[2 * self.Load[0:NLoad, 0].astype(int)] = self.Load[0:NLoad, 1]
         self.F[(2 * self.Load[0: NLoad, 0].astype(int)) + 1] = self.Load[0: NLoad, 2]
         NSupp = np.size(self.Supp, 0)
-        # Alteração devido ao erro de 0*x = 0
+        # change because of 0*x = 0
         FixedDofs = np.append((2 * self.Supp[0:NSupp, 0])[self.Supp[0:NSupp, 1].astype(bool)],
                               (2 * self.Supp[0:NSupp, 0] + 1)[self.Supp[0:NSupp, 2].astype(bool)])
         AllDofs = np.arange(0, 2 * self.NNode)
@@ -260,7 +260,7 @@ class FiniteElementStructure:
                 dalpha[i, 0] = -alpha[i] * (dA[i, 0] / A[i] + dA[i + 1, 0] / A[i + 1]) # calculo das derivadas de alpha
                 dalpha[i, 1] = -alpha[i] * (dA[i, 1] / A[i] + dA[i + 1, 1] / A[i + 1]) #calculo das derivadas de alpha
                 sum_alpha = sum_alpha + alpha[i] #soma dos alphas utilizado para calcular N e dN
-                sum_dalpha = sum_dalpha+dalpha[i, :] # soma das derivadas de alpha usada para calcular dN
+                sum_dalpha = sum_dalpha+dalpha[i, :] # soma das derivadas de alpha usado para calcular dN
             for i in range(0,nn):
                 N[i] = alpha[i]/sum_alpha # calculo dos Ni
                 dNdxi[i,:]=(dalpha[i,:]-N[i]*sum_dalpha)/sum_alpha #Calculo dos dNi
