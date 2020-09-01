@@ -9,6 +9,7 @@ https://paulino.ce.gatech.edu/software.html
 
 ## References:
 MatLab Algorithms:
+
   PolyMesher
     [1] Talischi C, Paulino GH, Pereira A, Menezes IFM (2012) PolyMesher: a general-purpose mesh 
     generator for polygonal elements written in Matlab. Structural and Multidisciplinary 
