@@ -44,7 +44,7 @@ def PolyMesher(Domain,NElem,MaxIter,P = None):
         P, R_P = PolyMshr_FixedPoints(P, R_P, PFix)
         R_P = np.unique(R_P.round(decimals=5), axis=0)# case tolerance for Reflection closes
         vor = Voronoi(np.concatenate((P,R_P),axis=0))
-        Node, Element = vor.vertices, np.array(vor.regions)[vor.point_region]  #!!!!!! Verificar diferenças de voronoi
+        Node, Element = vor.vertices, np.array(vor.regions)[vor.point_region]
         """ Os nós estão em ordem diferentes"""
         # so pra relatório caso erro
         '''for element in Element[:NElem]:
@@ -92,10 +92,10 @@ def PolyMshr_Rflct(P,NElem,Domain,Alpha):
     eta = 0.9
     d = Domain.Dist(P)
     NBdrySegs = np.size(d, 1) - 1 # Number of constituent bdry segments
-    n1 = (Domain.Dist(P+np.repeat(np.array([[eps,0]]),NElem,0))-d)/eps #verificar se vai avaliar como matriz [eps,0]
+    n1 = (Domain.Dist(P+np.repeat(np.array([[eps,0]]),NElem,0))-d)/eps
     n2 = (Domain.Dist(P + np.repeat(np.array([[0, eps]]), NElem, 0))-d)/eps
     I = np.nonzero(abs(d[:, 0: NBdrySegs]) < Alpha) # Logical index of seeds near the bdry modificação/ brusca verificar se é matriz ou vetor(a saida é uma tupla)
-    #é tupla pois deve fazer a combinação no vetor eg x[1,2]
+    #tupla pois deve fazer a combinação no vetor eg x[1,2]
     P1 = np.repeat(np.atleast_2d(P[:,0]),NBdrySegs+1,axis=0).T #[NElem x NBdrySegs] extension of P(:,1) # a função de distancia possui 4+1(max) valores
     P2 = np.repeat(np.atleast_2d(P[:,1]),NBdrySegs+1,axis=0).T #[NElem x NBdrySegs] extension of P(:,2)
 
@@ -121,7 +121,7 @@ def PolyMshr_FixedPoints(P, R_P, PFix):
             PP[I[j],:] = PP[I[j],:]-n * (B[j] - B[0])
 
     P = PP[0:np.size(P, 0), :]
-    R_P = PP[(np.size(P, 0)):len(PP), :] #correção de erro que tava cortando uma reflexão
+    R_P = PP[(np.size(P, 0)):len(PP), :]
     return P, R_P
 
 
@@ -147,7 +147,7 @@ def PolyMshr_ExtrNds(NElem, Node0, Element0):
     for item in Element0[0:NElem]:
         for i in item:
             Element0Flat.append(i)
-    map = np.unique(np.array(Element0Flat)) # o vetor anterior tem repetições, precisa tirá-las
+    map = np.unique(np.array(Element0Flat)) # o vetor anterior tem repetições, precisa retirá-las
     cNode = np.array(range(0,np.size(Node0,0))) # vetor cNode que será usada para fazer o mapeamento de mudança
     cNode[np.setdiff1d(cNode,map)] = max(map) # seleciona os nós externos que serão retirados e atribui o valor max(map)
     Node, Element = PolyMshr_RbldLists(Node0,Element0[0:NElem],cNode) #observe que usa somente a parte de elementos referente as sementes
@@ -160,7 +160,7 @@ def PolyMshr_RbldLists(Node0,Element0,cNode):
         jx = jx.transpose()'''
     if np.size(Node0,0)>len(ix): # aparentemente poderia se utilizar foo, manter so na duvida(ix está em ordem desta forma o ultimo valor será o de um no retirado)
         ix[-1] = max(cNode)
-    Node = Node0[ix,:] # faz as modificações necessárias e retira os nos desnecessários
+    Node = Node0[ix,:] # faz as modificações necessárias e retira os nós desnecessários
     for el in range(0,np.size(Element0,0)): #precisa agora fazer a transformação nos elementos
         Element.append(np.unique(jx[Element0[el]]))# no colapso pode ter repetição de nós(que serão colapsados) / jx é como uma inversa degenerada mas serve adequadamente
         vx = Node[Element[el],0] # a partir daqui será colocado em ordem antihoraria
@@ -170,7 +170,7 @@ def PolyMshr_RbldLists(Node0,Element0,cNode):
         iix = np.argsort(vector) #
         # foo = np.take_along_axis(vector, iix, axis=0) linha desnecessária
         Element[el] = Element[el][iix] #coloca em ordem antihoraria(importante para avaliar beta)
-        #observar sort e unique no numpy
+
     return Node, Element
 
 def PolyMshr_CllpsEdgs(Node0,Element0,Tol=0.1):
@@ -182,17 +182,17 @@ def PolyMshr_CllpsEdgs(Node0,Element0,Tol=0.1):
             vx = Node0[Element0[el],0]  # coordenadas
             vy = Node0[Element0[el],1]
             nv = len(vx) #numero de nós nos poligonos
-            beta = np.arctan2(vy-sum(vy)/nv, vx-sum(vx)/nv) # sum(vx)/nv e sum(vy)/nv são para botar em referencia ao centro do pol então ai é o angulo total do ponto
+            beta = np.arctan2(vy-sum(vy)/nv, vx-sum(vx)/nv) # sum(vx)/nv e sum(vy)/nv estabelece referencia ao centro do pol então essa linha é o angulo total do ponto
             beta = np.remainder(np.append(beta[1:nv],beta[0]) - beta,2*np.pi) #subtrai o angulo dos pontos adjacentes para obter o angulo do lado
             betaIdeal = 2*np.pi/nv  # valor a que será comparado
             Edge = np.stack([Element0[el],np.append(Element0[el][1:nv],Element0[el][0])]).T
-            cEdge = np.append(cEdge,Edge[beta<Tol*betaIdeal], axis=0)#pega somente os lados que tem a condição de colapso
+            cEdge = np.append(cEdge,Edge[beta<Tol*betaIdeal], axis=0)#seleciona somente os lados que tem a condição de colapso
 
-        if (np.size(cEdge,0)==0): break # essa parte é pq é desnecessário o resto se não tem lado para colapsar
-        cEdge = np.unique(np.sort(cEdge,1),axis=0) #no mínimo serão dois poligonos envolvidos então tem que tirar repetição
+        if (np.size(cEdge,0)==0): break # desnecessário o resto se não tem lado para colapsar
+        cEdge = np.unique(np.sort(cEdge,1),axis=0) #no mínimo serão dois poligonos envolvidos então tem que remover repetição
         cNode = np.array(range(0,np.size(Node0,0))) # criar o vetor cnode de mapeamento
         for i in range(0,np.size(cEdge,0)):  cNode[cEdge[i,1]] = cNode[cEdge[i,0]] # os nós dos lados que entrarão em colapso são mapiados para o mesmo
-        Node0,Element0 = PolyMshr_RbldLists(Node0,Element0,cNode) # usa a função Rbld para fazer a parada acima
+        Node0,Element0 = PolyMshr_RbldLists(Node0,Element0,cNode) # usa a função Rbld para fazer a função acima
     return Node0,Element0
 
 def PolyMshr_RsqsNds(Node0, Element0):
@@ -214,7 +214,7 @@ def PolyMshr_RsqsNds(Node0, Element0):
     K = sparse.coo_matrix((s, (i, j)), shape=(NNode0, NNode0)).tocsr()
     p = sparse.csgraph.reverse_cuthill_mckee(K)
     cNode = np.zeros(NNode0)
-    cNode[p[0:NNode0]] = np.array(range(0, NNode0))  # Loucuras
+    cNode[p[0:NNode0]] = np.array(range(0, NNode0))
     Node, Element = PolyMshr_RbldLists(Node0, Element0, cNode)
     return Node, Element
 

@@ -6,6 +6,7 @@ Reference of the algorithm article:
 Talischi C, Paulino GH, Pereira A, Menezes IFM (2012) PolyTop: a Matlab implementation of a general topology
 optimization framework using unstructured polygonal finite element meshes. Structural and Multidisciplinary Optimization
  45:329–357. https://doi.org/10.1007/s00158-011-0696-x
+
 '''
 import numpy as np
 from scipy import sparse
@@ -89,7 +90,7 @@ class PolyTop:
         dgdV = fem.ElemArea/sum(fem.ElemArea)
         return g,dgdE,dgdV
 
-    def UpdateScheme(self,dfdz,g,dgdz,z0): # ver substitui por uma função scypy
+    def UpdateScheme(self,dfdz,g,dgdz,z0):
         zMin = self.zMin
         zMax = self.zMax
         move = self.OCMove*(zMax-zMin)
@@ -127,7 +128,7 @@ class FiniteElement:
     def __init__(self, Mesher, Nu0 = 0.3, E0=2000.0, Reg = 0):
         self.Mesher = Mesher
         self.Node = self.Mesher.Node
-        self.Element = self.Mesher.Element #VERIFICAR SE ELEMENT VEM COMO ARRAY
+        self.Element = self.Mesher.Element
         self.Supp = self.Mesher.Supp
         self.Load = self.Mesher.Load
         self.NNode = np.size(self.Node,0)
@@ -157,7 +158,7 @@ class FiniteElement:
                 self.j[index:index+NDof**2] = J.flatten(order='F')
                 self.k[index:index+NDof**2] = Ke.flatten(order='F')
                 self.e[index:index+NDof**2] = el
-                index = index + NDof**2 #Verificar questão do intervalo aberto
+                index = index + NDof**2
         NLoad = np.size(self.Load,0)
         self.F  = np.zeros(2*self.NNode)
         self.F[2*self.Load[0:NLoad,0].astype(int)]= self.Load[0:NLoad,1]
@@ -170,7 +171,7 @@ class FiniteElement:
         self.FreeDofs = np.setdiff1d(AllDofs, FixedDofs)
         K = sparse.csr_matrix((self.k * E[self.e].flatten(), (self.i, self.j)), shape=(max(self.i) + 1, max(self.j) + 1))
         U = np.zeros(2*self.NNode)
-        U[self.FreeDofs] = spsolve(K[self.FreeDofs,:][:,self.FreeDofs],self.F[self.FreeDofs]) # olhar para assumir que é simetrica
+        U[self.FreeDofs] = spsolve(K[self.FreeDofs,:][:,self.FreeDofs],self.F[self.FreeDofs])
         return U
 
 
@@ -190,22 +191,22 @@ class FiniteElement:
         for q in range(0,len(W)):
             dNdxi = self.ShapeFnc[nn].dNdxi[:,:,q]
             J0 = self.Node[eNode,:].T @ dNdxi
-            dNdx =dNdxi @ np.linalg.inv(J0) # verificar melhor forma
+            dNdx =dNdxi @ np.linalg.inv(J0) # see with there is another way
             B = np.zeros((3,2*nn))
             B[0, 0: 2 * nn:2] = dNdx[:, 0]
             B[1, 1: 2 * nn:2] = dNdx[:, 1]
             B[2, 0: 2 * nn: 2] = dNdx[:, 1]
             B[2, 1: 2 * nn: 2] = dNdx[:, 0]
-            Ke = Ke +B.transpose() @ D @ B * W[q] * np.linalg.det(J0) # verificar se W é escalar
+            Ke = Ke +B.transpose() @ D @ B * W[q] * np.linalg.det(J0)
         return Ke
 
 
     def TabShapeFnc(self):
         def PolyTrnglt(nn, xi):
             temp = np.array(range(1,nn+1))
-            p = np.append([np.cos(2*np.pi*temp/nn)],[np.sin(2*np.pi*temp/nn)], axis=0).T # são os pontos da triangulação
+            p = np.append([np.cos(2*np.pi*temp/nn)],[np.sin(2*np.pi*temp/nn)], axis=0).T # triangulation points
             p = np.append(p,[xi], axis=0)
-            Tri = np.zeros((nn,3), dtype=int) # é a conexão dos triangulos para calcular as coordenadas baricêntricas
+            Tri = np.zeros((nn,3), dtype=int) # é triangle connections for calculate the baricentric coordenates
             Tri[0:nn,0] = nn
             Tri[0:nn,1] = np.arange(nn)
             Tri[0:nn,2] = np.arange(1,nn+1)
@@ -224,13 +225,13 @@ class FiniteElement:
             dA = np.zeros((nn, 2))
             p, Tri = PolyTrnglt(nn,xi)
             for i in range(0,nn):
-                sctr = Tri[i] # significa o vetor sendo analisado
-                pT = p[sctr] # analisa os pontos do triangulo
-                A[i] = 1 / 2 * np.linalg.det(np.column_stack([pT, np.ones((3, 1))])) #formula básica de área
-                dA[i, 0] = 1 / 2 * (pT[2, 1] - pT[1, 1]) # derivada da área com relação a xi1
-                dA[i, 1] = 1 / 2 * (pT[1, 0] - pT[2, 0]) #derivada da área com relação a x2
-            A = np.append([A[-1,:]],A) # armazena as áreas
-            dA = np.append([dA[-1,:]],dA, axis=0)  # armazena as derivadas
+                sctr = Tri[i] # the analised vector
+                pT = p[sctr] # analise the triangle points
+                A[i] = 1 / 2 * np.linalg.det(np.column_stack([pT, np.ones((3, 1))])) #area expression
+                dA[i, 0] = 1 / 2 * (pT[2, 1] - pT[1, 1]) # area derivative with xi1
+                dA[i, 1] = 1 / 2 * (pT[1, 0] - pT[2, 0]) # area derivative with x2
+            A = np.append([A[-1,:]],A) # save the areas
+            dA = np.append([dA[-1,:]],dA, axis=0)  # save the derivatives
             for i in range(0,nn):
                 alpha[i] = 1 / (A[i] * A[i + 1]) # calculo dos alfas reduzido para regular
                 dalpha[i, 0] = -alpha[i] * (dA[i, 0] / A[i] + dA[i + 1, 0] / A[i + 1]) # calculo das derivadas de alpha
@@ -257,15 +258,15 @@ class FiniteElement:
             p, Tri = PolyTrnglt(nn,np.array([0,0])) # triangulos do poligono regular
             point = np.zeros((nn*len(W),2)) #saída
             weight = np.zeros((nn * len(W), 1))
-            for k in range(0,nn): # faz a transformada do triangulo para o de referência que aplica a quadratura
+            for k in range(0,nn): # transformada do triangulo para o de referência que aplica a quadratura
                 sctr = Tri[k,:]
                 for q in range(0,len(W)):
-                    N, dNdS = TriShapeFnc(Q[q,:]) # o N é usado para encontrar o ponto equivalente da quadratura na triangulação
+                    N, dNdS = TriShapeFnc(Q[q,:]) # N é usado para encontrar o ponto equivalente da quadratura na triangulação
                     J0 = p[sctr,:].T @ dNdS # jacobiano para fazer o fator de correção da área
-                    l = (k) * len(W) + q #somente para armazenar em um vetor
+                    l = (k) * len(W) + q #armazenar em um vetor
                     point[l,:] = N.T @ p[sctr,:] #transforma os pontos da quadratura para o equivalente ao triangulo
                     weight[l] = np.linalg.det(J0)*W[q] #peso corrigido com o determinante do jacobiano
-            return weight, point # saira os pontos correspondetes do poligono ja
+            return weight, point # pontos correspondetes do poligono ja
 
         ElemNNode = [len(element) for element in self.Element]
         self.ShapeFnc = [Generic() for n in range(0,max(ElemNNode)+1)]
@@ -275,7 +276,7 @@ class FiniteElement:
             self.ShapeFnc[nn].N = np.zeros((nn, 1, np.size(W, 0)))
             self.ShapeFnc[nn].dNdxi = np.zeros((nn, 2, np.size(W,0)) )
             for q in range(0,np.size(W,0)):
-                N, dNdxi = PolyShapeFnc(nn, Q[q,:]) # aqui será calculado a função de forma do poligono com referencia aos pontos da quadratura transformados
+                N, dNdxi = PolyShapeFnc(nn, Q[q,:]) # calculo da função de forma do poligono com referencia aos pontos da quadratura transformados
                 self.ShapeFnc[nn].N[:,:,q] = N #atribui o valor
                 self.ShapeFnc[nn].dNdxi[:,:, q] = dNdxi # atribui o valor
 

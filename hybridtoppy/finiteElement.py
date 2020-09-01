@@ -220,7 +220,7 @@ class FiniteElementStructure:
     def FEAnalysis(self, E):
         K = sparse.csr_matrix((self.k * E[self.e], (self.i, self.j)), shape=(max(self.i) + 1, max(self.j) + 1))
         Kl = K[self.FreeDofs,:][:,self.FreeDofs]
-        self.U[self.FreeDofs] = spsolve(Kl,self.F[self.FreeDofs]) # olhar para assumir que é simetrica
+        self.U[self.FreeDofs] = spsolve(Kl,self.F[self.FreeDofs])
 
 
     #------------------------Tabulate Shape Function--------------------------------------------------------
@@ -229,7 +229,7 @@ class FiniteElementStructure:
             temp = np.array(range(1,nn+1))
             p = np.append([np.cos(2*np.pi*temp/nn)],[np.sin(2*np.pi*temp/nn)], axis=0).T # são os pontos da triangulação
             p = np.append(p,[xi], axis=0)
-            Tri = np.zeros((nn,3), dtype=int) # é a conecção dos triangulos para calcular as coordenadas baricêntricas
+            Tri = np.zeros((nn,3), dtype=int) # conecção dos triangulos para calcular as coordenadas baricêntricas
             Tri[0:nn,0] = nn
             Tri[0:nn,1] = np.arange(nn)
             Tri[0:nn,2] = np.arange(1,nn+1)
@@ -248,7 +248,7 @@ class FiniteElementStructure:
             dA = np.zeros((nn, 2))
             p, Tri = PolyTrnglt(nn,xi)
             for i in range(0,nn):
-                sctr = Tri[i] # significa o vetor sendo analisado
+                sctr = Tri[i] # vetor sendo analisado
                 pT = p[sctr] # analisa os pontos do triangulo
                 A[i] = 1 / 2 * np.linalg.det(np.column_stack([pT, np.ones((3, 1))])) #formula básica de área
                 dA[i, 0] = 1 / 2 * (pT[2, 1] - pT[1, 1]) # derivada da área com relação a xi1
@@ -281,15 +281,15 @@ class FiniteElementStructure:
             p, Tri = PolyTrnglt(nn,np.array([0,0])) # triangulos do poligono regular
             point = np.zeros((nn*len(W),2)) #saída
             weight = np.zeros((nn * len(W), 1))
-            for k in range(0,nn): # faz a transformada do triangulo para o de referência que aplica a quadratura
+            for k in range(0,nn): #transformada do triangulo para o de referência que aplica a quadratura
                 sctr = Tri[k,:]
                 for q in range(0,len(W)):
-                    N, dNdS = TriShapeFnc(Q[q,:]) # o N é usado para encontrar o ponto equivalente da quadratura na triangulação
+                    N, dNdS = TriShapeFnc(Q[q,:]) # N é usado para encontrar o ponto equivalente da quadratura na triangulação
                     J0 = p[sctr,:].T @ dNdS # jacobiano para fazer o fator de correção da área
-                    l = (k) * len(W) + q #somente para armazenar em um vetor
+                    l = (k) * len(W) + q #armazenar em um vetor
                     point[l,:] = N.T @ p[sctr,:] #transforma os pontos da quadratura para o equivalente ao triangulo
                     weight[l] = np.linalg.det(J0)*W[q] #peso corrigido com o determinante do jacobiano
-            return weight, point # saira os pontos correspondetes do poligono ja
+            return weight, point # pontos correspondetes do poligono
 
         ElemNNode = [element.size for element in self.BiDimensionalElements]
         self.ShapeFnc = [Generic() for n in range(0,max(ElemNNode)+1)]
@@ -299,6 +299,6 @@ class FiniteElementStructure:
             self.ShapeFnc[nn].N = np.zeros((nn, 1, np.size(W, 0)))
             self.ShapeFnc[nn].dNdxi = np.zeros((nn, 2, np.size(W,0)) )
             for q in range(0,np.size(W,0)):
-                N, dNdxi = PolyShapeFnc(nn, Q[q,:]) # aqui será calculado a função de forma do poligono com referencia aos pontos da quadratura transformados
+                N, dNdxi = PolyShapeFnc(nn, Q[q,:]) # calculo da função de forma do poligono com referencia aos pontos da quadratura transformados
                 self.ShapeFnc[nn].N[:,:,q] = N #atribui o valor
                 self.ShapeFnc[nn].dNdxi[:,:, q] = dNdxi # atribui o valor
