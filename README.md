@@ -98,7 +98,7 @@ Author of the translation and HybridToppy code: Paulo Vinicius Costa Rodrigues
 
 The HybridTop algorithm was part of a master in civil engineering thesis oriented by Rejane Canha.
 
-I thank the Capes financial agency for the support provided
+I thank UFS - *Universidade Federal de Sergipe*, Proec - *Programa de Pós-Graduação em Engenharia Civil* and Capes - *Coordenação de Aperfeiçoamento de Pessoal de Nível Superior* for their support.
 
 ---
 
