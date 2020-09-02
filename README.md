@@ -18,25 +18,31 @@ http://paulino.ce.gatech.edu/contact.html
 
 # How to use
 
-  The folder has Scripts that are organized for direct user use
+    The repository has Scripts for all algorithms that is organized for direct use.
 
 ## 1 - Mesher Generation
-    The first step is use the PolyMesherpy to generate the algorithm, this algorithm uses sign and dist functions to describe the domain and 
-    generate a poligonal mesh. Details of how to do this are in [1]
+  
+    If there is not a mesh, the mesh can be obtain with the use of the ScriptPolyMesherpy.
 
-## 2 - Save the Mesh
+    The PolyMesherpy will generate a poligonal mesh using sign and dist functions to describe the domain. 
+    Details of how this work are in [1]
 
-## 3 - Chose the topology structural optimization type
+## 2 - Chose the topology structural optimization type
 
     (a) Truss Optimization -> GRANDpy
-    (b) Bydimensional Finite Elements Optimization -> PolyToppy
-    (c) Hybrid optimization ( for reiforced concrete) -> HybridToppy
+    (b) Continuum Optimization -> PolyToppy
+    (c) Hybrid Optimization (for reiforced concrete) -> HybridToppy
 
-## 3.c - If the option is c you will need to use the HybridMesher
-    For this you will use the HibridMesher.
+## 3.c - If the option is c you will a hybrid mesh.
+    
+    The hybrid mesh can be obtain with the use of the ScripHybridMesher.
+    You will need two meshes, thin and sparse.
 
 ## 4 - Obtain the result
-    Use the Script.
+    Use the following Scripts according to the chosen optimization method:
+    (a) ScriptGrandpy
+    (b) ScriptPolyToppy
+    (c) ScriptHybridToppy
 
 ## References:
 ### MatLab Algorithms:
