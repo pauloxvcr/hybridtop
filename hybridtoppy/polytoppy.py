@@ -99,13 +99,13 @@ class HybridTop:
         #Bidimensional
         dgdE1 = np.zeros(np.size(E1))
         dgdV1 = fem.ElemArea/sum(fem.ElemArea)
-        #Barras
+        #Bars
         dgdV2 = fem.LenBars / sum(fem.ElemArea)
         dgdE2 = np.zeros(np.size(E2))
 
         return g,dgdE1,dgdV1,dgdV2,dgdE2
 
-    def UpdateScheme(self,g,dfdz1,dgdz1,z1,dfdz2,dgdz2,z2): # ver substitui por uma função scypy
+    def UpdateScheme(self,g,dfdz1,dgdz1,z1,dfdz2,dgdz2,z2):
         zMin = self.zMin
         zMax = self.zMax
         move = self.OCMove*(zMax-zMin)
