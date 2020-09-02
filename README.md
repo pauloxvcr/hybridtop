@@ -58,7 +58,7 @@ I thank the Capes financial agency for the support provided
 
 My primary language is not english is portuguese (Brazil).
 
-For now the algorithms do not follow the python convention, this made the job easier.
+For now the algorithms do not follow the python convention, this made the translation easier.
 
 Some things I change the logic because a "literal" translation would not work.
 
