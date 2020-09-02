@@ -8,9 +8,9 @@ from polytoppy.matIntFnc import simp
 
 import matplotlib.pyplot as plt
 
-#usando pickle para acelerar
+#using pickle to accelerate
 import pickle
-#Observação O Runtime Error é devido a plotBoundary pq tem matrix com Nan e há comparação >
+#Note: Runtime Error is due to plotBoundary because it has matrix with Nan and there is comparison>
 FileName = 'Hpier 0.3vol'
 #open mesher
 pickle_in = open('savedMeshersPolyMesher/HPier2000.pickle', 'rb')

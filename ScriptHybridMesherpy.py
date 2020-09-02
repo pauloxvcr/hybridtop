@@ -8,11 +8,11 @@ import matplotlib.pyplot as plt
 
 from grandpy.restrictionDomains import *
 FileName = 'Mbb_fpoly_epoly'
-#Malha Fina
+#Thin mesh
 pickle_in = open('savedMeshersPolyMesher/Mbb/Mbb3000.pickle','rb')
 malha1 = pickle.load(pickle_in)
 pickle_in.close()
-#Malha Grossa
+#Sparse mesh
 pickle_in = open('savedMeshersPolyMesher/Mbb/Mbb32.pickle','rb')
 malha2 = pickle.load(pickle_in)
 pickle_in.close()

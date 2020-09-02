@@ -15,15 +15,15 @@ def generateGS(Mesher,Lvl,RestrictDomain=None,ColTol = 0.999999):
     if RestrictDomain==None:
         RestrictDomain = NoneRestriction
     #Get element connectivity matrix
-    Nn = max([max(Node) for Node in Elem])+1 # encontra o maior no para achar o numero de nós
-    Ne = len(Elem) # quantos elementos tem
-    A1 = lil_matrix((Nn,Nn)) # matriz sparsa tamanho Nn
+    Nn = max([max(Node) for Node in Elem])+1 # find the largest node to find the number of nodes
+    Ne = len(Elem) # how many elements are there
+    A1 = lil_matrix((Nn,Nn)) # sparse matrix
     for i in range(0,Ne):
-        A1[ix_(Elem[i],Elem[i])] = 1 #primeira situação é conecções no elemento
-    A1 = A1 - identity(Nn) # retira conecção consigo msm
+        A1[ix_(Elem[i],Elem[i])] = 1 #first situation is connections in the element
+    A1 = A1 - identity(Nn) # disconnect from yourself
     An = A1 #
     #Level 1 connectivity
-    I,J = An.nonzero()# onde tem conecção / ta o contrário pq matlab é por coluna ( acho que da pra ignorar aqui)
+    I,J = An.nonzero()# where there is a connection / this is the opposite because matlab is per column
     Bars = np.column_stack([I,J])
     D = np.column_stack([Node[I,0] - Node[J,0],Node[I,1] - Node[J,1]])
     L = (np.sqrt(D[:,0]**2 + D[:,1]**2))
@@ -45,27 +45,27 @@ def generateGS(Mesher,Lvl,RestrictDomain=None,ColTol = 0.999999):
 
         newD = np.column_stack([Node[I,0]-Node[J,0],Node[I,1]-Node[J,1]])
         L = np.sqrt(newD[:,0]**2 +newD[:,1]**2).flatten()
-        newD = np.column_stack([newD[:,0].flatten()/L,newD[:,1].flatten()/L]) # verificar necessidade de flatten() # vetor unitário direcional
+        newD = np.column_stack([newD[:,0].flatten()/L,newD[:,1].flatten()/L])
         # Collinearity Check
-        p=0 # de onde saem as barras
-        m=0 # na teoria era pra ser quantidade de novas barras
-        RemoveFlag=np.zeros(np.size(I)) # pode haver um non zero dps então vai ter que compensar !!!!!!!!!!!!!!!!!1
+        p=0 # where the bars come from
+        m=0
+        RemoveFlag=np.zeros(np.size(I))
         Nb = np.size(Bars, 0)
         RemoveFlag = selectRemoveFlag(RemoveFlag,I,Bars,Nn,Nb,ColTol,D,newD)
-         #alteração devido ao fato de python começar com 0
+         #change due to the fact that python starts with 0
         '''Remove collinear bars and make sym[D[:,0].flatten()/L,D[:,1].flatten()/L]metric again. Bars that have one
         angle marked as collinear but the other not, will be spared
         '''
         ind, = np.nonzero(RemoveFlag==0)
         H = csr_matrix((np.ones(np.size(ind)),(I[ind],J[ind])),shape=(Nn,Nn))
-        I,J = np.nonzero(H+H.T) #  garante a simetria e elimina a situação de o no ser eliminado em q e nao em p
+        I,J = np.nonzero(H+H.T) #  guarantees symmetry and eliminates the situation of the node being eliminated in q and not in p
         print(f'Lvl {i} - Collinear bars removed: {(len(RemoveFlag)-len(I))/2}')
         Bars = np.concatenate((Bars,np.column_stack([I,J])), axis=0)
-        Bars = Bars[Bars[:,0].argsort()] # adiciona efetivamente as novas barras
-        D = np.column_stack([Node[Bars[:,0],0]-Node[Bars[:,1],0],Node[Bars[:,0],1]-Node[Bars[:,1],1]]) #fazer o vetor unitario direcional
+        Bars = Bars[Bars[:,0].argsort()] # effectively adds the new bars
+        D = np.column_stack([Node[Bars[:,0],0]-Node[Bars[:,1],0],Node[Bars[:,0],1]-Node[Bars[:,1],1]]) #directional unit vector
         L = np.sqrt(D[:,0]**2 +D[:,1]**2)#
         D = np.column_stack([D[:,0].flatten()/L,D[:,1].flatten()/L])
-    A= csr_matrix((np.ones(np.size(Bars,0)),(Bars[:,0],Bars[:,1])),shape=(Nn,Nn)) # encerra, mas ainda precisa retirar barras repetidas
-    I,J = tril(A).nonzero() # para isso usa somente o triangulo superior
+    A= csr_matrix((np.ones(np.size(Bars,0)),(Bars[:,0],Bars[:,1])),shape=(Nn,Nn)) # ends, but still needs to remove repeated bars
+    I,J = tril(A).nonzero() # for this use only the upper triangle
     Bars = np.column_stack([I,J])
     return Bars
