@@ -62,7 +62,8 @@ For now the algorithms do not follow the python convention, this made the transl
 
 Some things I change the logic because a "literal" translation would not work.
 
-Some comments is still in portuguese.
+---
+contact: pauloxvcr@gmail.com
 
 
 
