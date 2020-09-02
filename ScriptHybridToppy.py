@@ -5,7 +5,7 @@ from polymesherpy.polymesherpy import PolyMesher,PolyMshr_PlotMsh
 from polymesherpy.domains import MbbDomain
 from grandpy.printBars import printBars
 from hybridtoppy.finiteElement import FiniteElementStructure
-from hybridtoppy.polytoppy import HybridTop
+from hybridtoppy.hybridtoppy import HybridTop
 from hybridtoppy.polyFilter import PolyFilter
 from hybridtoppy import matIntFnc,matIntFncBar
 #usando pickle para acelerar

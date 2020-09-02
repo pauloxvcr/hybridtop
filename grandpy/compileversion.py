@@ -13,13 +13,13 @@ def selectRemoveFlag(RemoveFlag,I,Bars,Nn,Nb, ColTol,D,newD):
         for q in range(p, len(I)):
             if I[q] > j:
                 break
-        if I[q] > j:  # faz diferença no ultimo nó analisado
+        if I[q] > j:  #
             q = q - 1
 
-        if I[p] == j:  # dupla garantia?
+        if I[p] == j:  #
             # Find BARS(m:n) - OLD bars starting @ node 'j'
             for m in range(0, Nb):
-                if Bars[m, 0] >= j:  # barras também estão em ordens
+                if Bars[m, 0] >= j:  # bars are in order too
                     break
             for n in range(m, Nb):
                 if Bars[n, 0] > j:
@@ -28,7 +28,7 @@ def selectRemoveFlag(RemoveFlag,I,Bars,Nn,Nb, ColTol,D,newD):
                 n = n - 1
             if Bars[n, 0] == j:
                 # Dot products of old vs. new bars. If ~collinear: mark
-                C = maxColumn(D[m:n + 1, :] @ newD[p:q + 1, :].T)  # possível erro
+                C = maxColumn(D[m:n + 1, :] @ newD[p:q + 1, :].T)  #
                 RemoveFlag[p + ccoltol(C,ColTol)] = 1
     return RemoveFlag
 @jit(nopython = True)
