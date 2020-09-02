@@ -16,6 +16,28 @@ The contact to the creators of the 3 MatLab algorithms can be found in:
 
 http://paulino.ce.gatech.edu/contact.html
 
+# How to use
+
+  The folder has Scripts that are organized for direct user use
+
+## 1 - Mesher Generation
+    The first step is use the PolyMesherpy to generate the algorithm, this algorithm uses sign and dist functions to describe the domain and 
+    generate a poligonal mesh. Details of how to do this are in [1]
+
+## 2 - Save the Mesh
+
+## 3 - Chose the topology structural optimization type
+
+    (a) Truss Optimization -> GRANDpy
+    (b) Bydimensional Finite Elements Optimization -> PolyToppy
+    (c) Hybrid optimization ( for reiforced concrete) -> HybridToppy
+
+## 3.c - If the option is c you will need to use the HybridMesher
+    For this you will use the HibridMesher.
+
+## 4 - Obtain the result
+    Use the Script.
+
 ## References:
 ### MatLab Algorithms:
 
