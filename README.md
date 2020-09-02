@@ -18,14 +18,14 @@ http://paulino.ce.gatech.edu/contact.html
 
 ## Algorithms
 ### PolyMesher[1]
-    "Is a simple and robust MATLAB_(here converted to python)_ code for polygonal mesh generation,
+    "Is a simple and robust MATLAB*(here converted to python)* code for polygonal mesh generation,
     called PolyMesher."(https://paulino.ce.gatech.edu/software.html)
 ### GRAND[2]
-    "GRound structure Analysis and Design is an educational MATLAB_(here converted to python)_ code
+    "GRound structure Analysis and Design is an educational MATLAB*(here converted to python)* code
     for structural topology optimization with discrete elements using the ground structure approach."
     (https://paulino.ce.gatech.edu/software.html)
 ### PolyTop[3]
-    "PolyTop is an efficient Matlab_(here converted to python)_ code for structural topology 
+    "PolyTop is an efficient Matlab *(here converted to python)* code for structural topology 
     optimization that includes a general finite element routine based on isoparametric polygonal elements."
     (https://paulino.ce.gatech.edu/software.html)
 ### HybridToppy
