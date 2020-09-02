@@ -48,12 +48,8 @@ http://paulino.ce.gatech.edu/contact.html
 
 ---
 
-Author of the translation and HybridTop code:
-
-Paulo Vinicius Costa Rodrigues
-
+Author of the translation and HybridTop code: Paulo Vinicius Costa Rodrigues
 The HybridTop algorithm was part of a master in civil engineering thesis oriented by Rejane Canha.
-
 I thank the Capes financial agency for the support provided
 
 ---
