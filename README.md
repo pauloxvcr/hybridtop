@@ -1,7 +1,7 @@
 # Hybridtoppy
 
 This repository contain a collection of algorithms that is useful for topology optimization.
-The collection is composed by 3 Algorithms that was translate from Matlab to python [1-3] 
+The collection is composed by 3 Algorithms translated from Matlab to python [1-3] 
 and a new algorithm that accomplish hybrid topology optimization based on the formulation proposed by 
 Gaynor et al[4].
 
@@ -16,29 +16,29 @@ The contact to the creators of the 3 MatLab algorithms can be found in:
 
 http://paulino.ce.gatech.edu/contact.html
 
-# How to use
+## How to use
 
     The repository has Scripts for all algorithms that is organized for direct use.
 
-## 1 - Mesher Generation
+### 1 - Mesher Generation
   
     If there is not a mesh, the mesh can be obtain with the use of the ScriptPolyMesherpy.
 
     The PolyMesherpy will generate a poligonal mesh using sign and dist functions to describe the domain. 
     Details of how this work are in [1]
 
-## 2 - Chose the topology structural optimization type
+### 2 - Chose the topology structural optimization type
 
     (a) Truss Optimization -> GRANDpy
     (b) Continuum Optimization -> PolyToppy
     (c) Hybrid Optimization (for reiforced concrete) -> HybridToppy
 
-## 3.c - If the option is c you will need a hybrid mesh.
+### 3.c - If the option is c you will need a hybrid mesh.
     
     The hybrid mesh can be obtain with the use of the ScripHybridMesher.
     You will need two meshes, thin and sparse.
 
-## 4 - Obtain the result
+### 4 - Obtain the result
     Use the following Scripts according to the chosen optimization method:
     (a) ScriptGrandpy
     (b) ScriptPolyToppy
@@ -46,16 +46,15 @@ http://paulino.ce.gatech.edu/contact.html
 
 ---
 
-# Package requirements:
+## Package requirements:
 
-    . numpy,scipy -> https://numpy.org/
-    . matplotlib -> https://matplotlib.org/
-    
+    - numpy,scipy -> https://numpy.org/
+    - matplotlib -> https://matplotlib.org/  
     This packages are include in conda
 
-    . If use generategsc on grand or HybridToppy with multicore (default configuration)
+    If use generategsc on grand or HybridToppy with multicore (default configuration)
 
-    numba -> http://numba.pydata.org/
+    - numba -> http://numba.pydata.org/
 
 ---
 
