@@ -33,7 +33,7 @@ http://paulino.ce.gatech.edu/contact.html
     (b) Continuum Optimization -> PolyToppy
     (c) Hybrid Optimization (for reiforced concrete) -> HybridToppy
 
-## 3.c - If the option is c you will a hybrid mesh.
+## 3.c - If the option is c you will need a hybrid mesh.
     
     The hybrid mesh can be obtain with the use of the ScripHybridMesher.
     You will need two meshes, thin and sparse.
