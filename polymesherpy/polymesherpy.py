@@ -44,14 +44,13 @@ def PolyMesher(Domain,NElem,MaxIter,P = None):
         P, R_P = PolyMshr_FixedPoints(P, R_P, PFix)
         R_P = np.unique(R_P.round(decimals=5), axis=0)# case tolerance for Reflection closes
         vor = Voronoi(np.concatenate((P,R_P),axis=0))
-        Node, Element = vor.vertices, np.array(vor.regions)[vor.point_region]
-        """ Os nós estão em ordem diferentes"""
-        # so pra relatório caso erro
+        Node, Element = vor.vertices, np.array(vor.regions)[vor.point_region] # put the nodes in order (in matlab there is not need for this)
+        # if a intern seed for any reason generate a cell that has no limit(going to infinite) the program do not work proper
+        # this is rare but if happens you can debug with this
         '''for element in Element[:NElem]:
             for i in element:
                 if i == -1:
                     print(f'elemento:{element} i:{i}')
-                    #trava para verificar que ocorreu o erro
                     voronoi_plot_2d(vor)
                     plt.show()'''
         Pc,A = PolyMshr_CntrdPly(Element,Node,NElem)
@@ -96,14 +95,14 @@ def PolyMshr_Rflct(P,NElem,Domain,Alpha):
     n2 = (Domain.Dist(P + np.repeat(np.array([[0, eps]]), NElem, 0))-d)/eps
     I = np.nonzero(abs(d[:, 0: NBdrySegs]) < Alpha) # Logical index of seeds near the bdry modificação/ brusca verificar se é matriz ou vetor(a saida é uma tupla)
     #tupla pois deve fazer a combinação no vetor eg x[1,2]
-    P1 = np.repeat(np.atleast_2d(P[:,0]),NBdrySegs+1,axis=0).T #[NElem x NBdrySegs] extension of P(:,1) # a função de distancia possui 4+1(max) valores
-    P2 = np.repeat(np.atleast_2d(P[:,1]),NBdrySegs+1,axis=0).T #[NElem x NBdrySegs] extension of P(:,2)
+    P1 = np.repeat(np.atleast_2d(P[:,0]),NBdrySegs+1,axis=0).T # [NElem x NBdrySegs] extension of P(:,1) # a função de distancia possui 4+1(max) valores
+    P2 = np.repeat(np.atleast_2d(P[:,1]),NBdrySegs+1,axis=0).T # [NElem x NBdrySegs] extension of P(:,2)
 
-    R_P = P1[I] - 2 * n1[I] * d[I] # calcula as reflexões somente dos pertos do contorno
-    R_P = np.column_stack([R_P,P2[I] - 2 * n2[I] * d[I] ]) #y das reflexões a partir daqui vira novamente pontos
+    R_P = P1[I] - 2 * n1[I] * d[I] # Calculates the reflections only close to the boundary
+    R_P = np.column_stack([R_P,P2[I] - 2 * n2[I] * d[I] ]) # insert the y coordinate of the reflections
 
-    d_R_P = Domain.Dist(R_P) #calcula a função de distancia das reflexões
-    J, = np.nonzero(np.logical_and(abs(d_R_P[:,-1])>=eta*abs(d[I]),d_R_P[:,-1]>0)) #em domínio não convexos o reflexo pode ta mais proximo de um dos contornos do que a semente em relação ao contorno de reflexão, isso atrapalharia. a segunda condição é que tem que ta externa ao domínio
+    d_R_P = Domain.Dist(R_P) # sign function of the reflections
+    J, = np.nonzero(np.logical_and(abs(d_R_P[:,-1])>=eta*abs(d[I]),d_R_P[:,-1]>0)) # in non-convex domains the reflection may be closer to one of the contours than the seed in relation to the reflection contour, this would hinder. the second condition is: It must be external to the domain
     R_P = R_P[J,:]
     R_P = np.unique(R_P,axis=0)
     return R_P
@@ -133,7 +132,7 @@ def PolyMshr_CntrdPly(Element,Node,NElem):
         vx = Node[Element[el],0]
         vy = Node[Element[el],1]
         nv = len(Element[el])
-        vxS = np.append(vx[1:nv],vx[0]) #precisa inverter elementos
+        vxS = np.append(vx[1:nv],vx[0]) #
         vyS = np.append(vy[1:nv], vy[0])
         temp = vx*vyS - vy*vxS
         A[el] = 0.5 * sum(temp)
@@ -142,34 +141,34 @@ def PolyMshr_CntrdPly(Element,Node,NElem):
 
 def PolyMshr_ExtrNds(NElem, Node0, Element0):
     #temp for flaten
-    #cria um vetor com todos os nós da malha
+    #creat a vector with all the nodes
     Element0Flat = []
     for item in Element0[0:NElem]:
         for i in item:
             Element0Flat.append(i)
-    map = np.unique(np.array(Element0Flat)) # o vetor anterior tem repetições, precisa retirá-las
-    cNode = np.array(range(0,np.size(Node0,0))) # vetor cNode que será usada para fazer o mapeamento de mudança
-    cNode[np.setdiff1d(cNode,map)] = max(map) # seleciona os nós externos que serão retirados e atribui o valor max(map)
-    Node, Element = PolyMshr_RbldLists(Node0,Element0[0:NElem],cNode) #observe que usa somente a parte de elementos referente as sementes
+    map = np.unique(np.array(Element0Flat)) # remove repetitions
+    cNode = np.array(range(0,np.size(Node0,0))) # vector cNode that will be used for map the change
+    cNode[np.setdiff1d(cNode,map)] = max(map) # Select the external nodes that will be removed and assign the value max(map)
+    Node, Element = PolyMshr_RbldLists(Node0,Element0[0:NElem],cNode) # only uses the elements referents to the seeds
     return Node, Element
 
 def PolyMshr_RbldLists(Node0,Element0,cNode):
     Element = []
-    foo, ix, jx = np.unique(cNode,return_index=True,return_inverse=True) #cNode[ix]=foo e foo[jx] = cNode
+    foo, ix, jx = np.unique(cNode,return_index=True,return_inverse=True) # cNode[ix]=foo e foo[jx] = cNode
     '''if np.size(jx) != np.size(cNode): #desnecessário
         jx = jx.transpose()'''
-    if np.size(Node0,0)>len(ix): # aparentemente poderia se utilizar foo, manter so na duvida(ix está em ordem desta forma o ultimo valor será o de um no retirado)
+    if np.size(Node0,0)>len(ix): #
         ix[-1] = max(cNode)
-    Node = Node0[ix,:] # faz as modificações necessárias e retira os nós desnecessários
-    for el in range(0,np.size(Element0,0)): #precisa agora fazer a transformação nos elementos
-        Element.append(np.unique(jx[Element0[el]]))# no colapso pode ter repetição de nós(que serão colapsados) / jx é como uma inversa degenerada mas serve adequadamente
-        vx = Node[Element[el],0] # a partir daqui será colocado em ordem antihoraria
-        vy = Node[Element[el],1] # coordenadas dos nós
+    Node = Node0[ix,:] # makes necessary modifications and removes unnecessary nodes
+    for el in range(0,np.size(Element0,0)): # now needs to make the transformation in the elements
+        Element.append(np.unique(jx[Element0[el]]))# in the collapse there may be repetition of nodes (which will be collapsed) / jx is like a degenerate inverse but it serves properly
+        vx = Node[Element[el],0] # will be placed in anti-hourly order
+        vy = Node[Element[el],1] # node coordinates
         nv = len(vx)
-        vector = np.arctan2(vy-sum(vy)/nv,vx-sum(vx)/nv) #o arctan determinará a ordem
+        vector = np.arctan2(vy-sum(vy)/nv,vx-sum(vx)/nv) # the arctan will determine the order
         iix = np.argsort(vector) #
-        # foo = np.take_along_axis(vector, iix, axis=0) linha desnecessária
-        Element[el] = Element[el][iix] #coloca em ordem antihoraria(importante para avaliar beta)
+        # foo = np.take_along_axis(vector, iix, axis=0) unnecessary line
+        Element[el] = Element[el][iix] # puts in order anti-clockwise (important to evaluate beta)
 
     return Node, Element
 
@@ -178,21 +177,21 @@ def PolyMshr_CllpsEdgs(Node0,Element0,Tol=0.1):
     while True:
         cEdge = np.empty((0,2),dtype=int)
         for el in range(0,len(Element0)):
-            if np.size(Element0[el])<4: continue # não pode colapsar triangulos
-            vx = Node0[Element0[el],0]  # coordenadas
+            if np.size(Element0[el])<4: continue # cannot collapse triangles
+            vx = Node0[Element0[el],0]  # coordinates
             vy = Node0[Element0[el],1]
-            nv = len(vx) #numero de nós nos poligonos
-            beta = np.arctan2(vy-sum(vy)/nv, vx-sum(vx)/nv) # sum(vx)/nv e sum(vy)/nv estabelece referencia ao centro do pol então essa linha é o angulo total do ponto
-            beta = np.remainder(np.append(beta[1:nv],beta[0]) - beta,2*np.pi) #subtrai o angulo dos pontos adjacentes para obter o angulo do lado
-            betaIdeal = 2*np.pi/nv  # valor a que será comparado
+            nv = len(vx) # number of nodes in the polygons
+            beta = np.arctan2(vy-sum(vy)/nv, vx-sum(vx)/nv) # sum(vx)/nv e sum(vy)/nv establishes reference to the center of the pol so this line is the total angle of the point
+            beta = np.remainder(np.append(beta[1:nv],beta[0]) - beta,2*np.pi) # subtract the angle of the adjacent points to obtain the angle of the side
+            betaIdeal = 2*np.pi/nv  # value that will be compared
             Edge = np.stack([Element0[el],np.append(Element0[el][1:nv],Element0[el][0])]).T
-            cEdge = np.append(cEdge,Edge[beta<Tol*betaIdeal], axis=0)#seleciona somente os lados que tem a condição de colapso
+            cEdge = np.append(cEdge,Edge[beta<Tol*betaIdeal], axis=0)# selects only the sides that have the collapse condition
 
-        if (np.size(cEdge,0)==0): break # desnecessário o resto se não tem lado para colapsar
-        cEdge = np.unique(np.sort(cEdge,1),axis=0) #no mínimo serão dois poligonos envolvidos então tem que remover repetição
-        cNode = np.array(range(0,np.size(Node0,0))) # criar o vetor cnode de mapeamento
-        for i in range(0,np.size(cEdge,0)):  cNode[cEdge[i,1]] = cNode[cEdge[i,0]] # os nós dos lados que entrarão em colapso são mapiados para o mesmo
-        Node0,Element0 = PolyMshr_RbldLists(Node0,Element0,cNode) # usa a função Rbld para fazer a função acima
+        if (np.size(cEdge,0)==0): break # unnecessary what is below if there is no side to collapse
+        cEdge = np.unique(np.sort(cEdge,1),axis=0) # at least there will be two polygons involved so you have to remove repetition
+        cNode = np.array(range(0,np.size(Node0,0))) # create the mapping cnode vector
+        for i in range(0,np.size(cEdge,0)):  cNode[cEdge[i,1]] = cNode[cEdge[i,0]] # the collapsing side nodes are mapped to the same
+        Node0,Element0 = PolyMshr_RbldLists(Node0,Element0,cNode) # uses the Rbld function to do the above job
     return Node0,Element0
 
 def PolyMshr_RsqsNds(Node0, Element0):
@@ -230,7 +229,7 @@ def PolyMshr_PlotMsh(Node, Element, Supp= None, Load=None, ):
     ax.autoscale()
     ax.set_aspect('equal')
     ax.axis('off')
-#classe para salvar malha
+#Class to save the result
 class ResultPolyMesher():
     def __init__(self,Node,Element,Supp,Load):
         self.Node = Node
