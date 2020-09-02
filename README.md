@@ -7,9 +7,13 @@ Gaynor et al[4].
 
 Obs: The 3 Softwares, PolyMesherpy, GRANDpy and PolyToppy, are for educational or academic use only. All rights of reproduction or
 distribution in any form are reserved to the original creators.
+
 The Matlab algorithms and the algorithms articles can be found in:
+
 https://paulino.ce.gatech.edu/software.html
+
 The contact to the creators of the 3 MatLab algorithms can be found in:
+
 http://paulino.ce.gatech.edu/contact.html
 
 ## References:
