@@ -2,10 +2,10 @@
 
 This repository contain a collection of algorithms that is useful for topology optimization.
 The collection is composed by 3 Algorithms that was translate from Matlab to python [1-3] 
-and a new algorithm that accomplish hybrid topology optimization based on the formulation of 
+and a new algorithm that accomplish hybrid topology optimization based on the formulation proposed by 
 Gaynor et al[4].
 
-Obs: The 3 Softwares, PolyMesherpy, GRANDpy and PolyToppy, are for educational or academic use only. All rights of reproduction or
+The 3 Softwares, PolyMesherpy, GRANDpy and PolyToppy, are for educational or academic use only. All rights of reproduction or
 distribution in any form are reserved to the original creators.
 
 The Matlab algorithms and the algorithms articles can be found in:
