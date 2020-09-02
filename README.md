@@ -1,4 +1,4 @@
-# Hybridtop
+# Hybridtoppy
 
 This repository contain a collection of algorithms that is useful for topology optimization.
 The collection is composed by 3 Algorithms that was translate from Matlab to python [1-3] 
@@ -44,6 +44,21 @@ http://paulino.ce.gatech.edu/contact.html
     (b) ScriptPolyToppy
     (c) ScriptHybridToppy
 
+---
+
+# Package requirements:
+
+    . numpy,scipy -> https://numpy.org/
+    . matplotlib -> https://matplotlib.org/
+    
+    This packages are include in conda
+
+    . If use generategsc on grand or HybridToppy with multicore (default configuration)
+
+    numba -> http://numba.pydata.org/
+
+---
+
 ## References:
 ### MatLab Algorithms:
 
@@ -72,11 +87,14 @@ http://paulino.ce.gatech.edu/contact.html
     Using Bilinear Truss-Continuum Topology Optimization.Journal of Structural Engineering 139:607–618.
     https://doi.org/10.1061/(ASCE)ST.1943-541X.0000692
 
+
+---
+
 ## Observations
 
 ---
 
-Author of the translation and HybridTop code: Paulo Vinicius Costa Rodrigues
+Author of the translation and HybridToppy code: Paulo Vinicius Costa Rodrigues
 
 The HybridTop algorithm was part of a master in civil engineering thesis oriented by Rejane Canha.
 
@@ -90,7 +108,7 @@ For now the algorithms do not follow the python convention, this made the transl
 
 Some things I change the logic because a "literal" translation would not work.
 
----
+
 contact: pauloxvcr@gmail.com
 
 
