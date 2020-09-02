@@ -49,7 +49,9 @@ http://paulino.ce.gatech.edu/contact.html
 ---
 
 Author of the translation and HybridTop code: Paulo Vinicius Costa Rodrigues
+
 The HybridTop algorithm was part of a master in civil engineering thesis oriented by Rejane Canha.
+
 I thank the Capes financial agency for the support provided
 
 ---
@@ -58,7 +60,8 @@ My primary language is not english is portuguese (Brazil).
 
 For now the algorithms do not follow the python convention, this made the job easier.
 
-Some things I change the logic because a "literal" translation would not work.\n
+Some things I change the logic because a "literal" translation would not work.
+
 Some comments is still in portuguese.
 
 
