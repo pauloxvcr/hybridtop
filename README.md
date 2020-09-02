@@ -19,11 +19,11 @@ http://paulino.ce.gatech.edu/contact.html
 ## Algorithms
 ### PolyMesher[1]
     In topology optimization, polygonal discretizations have been shown not to be susceptible to numerical instabilities such as checkerboard patterns. 
-Talischi C, Paulino GH, Pereira A, Menezes IFM developed a simple and robust Matlab code for polygonal mesh generation, called PolyMesher.(https://paulino.ce.gatech.edu/software.html)
+    Talischi C, Paulino GH, Pereira A, Menezes IFM developed a simple and robust Matlab code for polygonal mesh generation, called PolyMesher.(https://paulino.ce.gatech.edu/software.html)
 ### GRAND[2]
     GRound structure Analysis and Design is an educational MATLAB code for structural topology optimization with discrete elements
- using the ground structure approach. Domains can be concave and with the possibility of holes. Concavities and holes are handled by defining
- collision zones (or hitboxes). Both, the domain and the collision zones are procedurally generated, thus allowing for simplicity and flexibility in the analysis.(https://paulino.ce.gatech.edu/software.html)
+    using the ground structure approach. Domains can be concave and with the possibility of holes. Concavities and holes are handled by defining
+    collision zones (or hitboxes). Both, the domain and the collision zones are procedurally generated, thus allowing for simplicity and flexibility in the analysis.(https://paulino.ce.gatech.edu/software.html)
 ### PolyTop[3]
     PolyTop is an efficient Matlab code for structural topology optimization that includes a general finite element routine based on isoparametric polygonal elements.(https://paulino.ce.gatech.edu/software.html)
 ### HybridToppy
