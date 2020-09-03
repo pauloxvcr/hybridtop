@@ -45,9 +45,9 @@ For this, you will need two meshes, thin and sparse.
 
 ### 3 - Obtain the result
 Use the following Scripts according to the chosen optimization method:
-(a) ScriptGrandpy
-(b) ScriptPolyToppy
-\(c\) ScriptHybridToppy
+(a) ScriptGrandpy    
+(b) ScriptPolyToppy    
+\(c\) ScriptHybridToppy  
 
 ---
 
