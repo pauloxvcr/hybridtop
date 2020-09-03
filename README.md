@@ -37,7 +37,7 @@ The PolyMesherpy will generate a poligonal mesh using sign and dist functions to
 ### 2 - Chose the topology structural optimization type
 (a) Truss Optimization -> GRANDpy  
 (b) Continuum Optimization -> PolyToppy  
-\(c\) Hybrid Optimization (for reiforced concrete) -> HybridToppy  
+\(c\) Hybrid Optimization (for reinforced concrete) -> HybridToppy  
 
 ### 2.c - If the option is c you will need a hybrid mesh.
 The hybrid mesh can be generated with the use of the ScripHybridMesher.  
