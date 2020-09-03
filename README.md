@@ -29,8 +29,8 @@ http://paulino.ce.gatech.edu/contact.html
     optimization that includes a general finite element routine based on isoparametric polygonal elements."
     (https://paulino.ce.gatech.edu/software.html)
 ### HybridToppy
-    HybridTopy is a python code for structural topology optimization focus on Reiforced Concrete, 
-    this algorithm considers concrete as a continuum (using isoparametric polygonal elements)
+    HybridTopy is a python code for structural topology optimization focused on Reiforced Concrete. 
+    This algorithm considers concrete as a continuum (using isoparametric polygonal elements)
     and the reinforcement as bar elements(using unidimensional finite element).
 
 ## How to use
