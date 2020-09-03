@@ -35,16 +35,16 @@ The repository has Scripts for all algorithms that is organized for direct use.
 The PolyMesherpy will generate a poligonal mesh using sign and dist functions to describe the domain. Details of how this work are in [1]
 
 ### 2 - Chose the topology structural optimization type
-(a) Truss Optimization -> GRANDpy
-(b) Continuum Optimization -> PolyToppy
-\(c\) Hybrid Optimization (for reiforced concrete) -> HybridToppy
+(a) Truss Optimization -> GRANDpy  
+(b) Continuum Optimization -> PolyToppy  
+\(c\) Hybrid Optimization (for reiforced concrete) -> HybridToppy  
 
 ### 2.c - If the option is c you will need a hybrid mesh.
 The hybrid mesh can be generated with the use of the ScripHybridMesher.  
 For this, you will need two meshes, thin and sparse.
 
 ### 3 - Obtain the result
-Use the following Scripts according to the chosen optimization method:
+Use the following Scripts according to the chosen optimization method:  
 (a) ScriptGrandpy    
 (b) ScriptPolyToppy    
 \(c\) ScriptHybridToppy  
